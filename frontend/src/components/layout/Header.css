@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════
+   Header — Contextual greeting + hamburger on mobile
+   ═══════════════════════════════════════════════════════ */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 30;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Left: Hamburger + Greeting + Page Indicator ── */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Hidden on desktop */
+.header-hamburger {
+  display: none;
+}
+
+.header-context {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-greeting {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.header-greeting strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header-page-indicator {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ── Right: Actions ── */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-bell {
+  position: relative;
+}
+
+.header-bell-dot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  background: var(--danger);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--bg-elevated);
+}
+
+.header-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+}
+
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent), var(--brand-primary));
+  color: #fff;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .header-hamburger {
+    display: flex;
+  }
+
+  .header-greeting {
+    font-size: 0.8125rem;
+  }
+
+  .header-page-indicator {
+    display: none;
+  }
+
+  .header-logout-text {
+    display: none;
+  }
+
+  .header-user-menu {
+    margin-left: 4px;
+    padding-left: 8px;
+  }
+}
+
+/* Smaller screens — hide greeting, show only hamburger */
+@media (max-width: 480px) {
+  .header-greeting {
+    display: none;
+  }
+}

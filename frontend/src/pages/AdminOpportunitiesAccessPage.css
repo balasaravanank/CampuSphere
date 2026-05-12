@@ -1,0 +1,493 @@
+/* ══════════════════════════════════════════════════════════
+   AdminOpportunitiesAccessPage.css
+   Design: Clean command-center with permission status focus
+   ══════════════════════════════════════════════════════════ */
+
+.oap-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 860px;
+}
+
+/* ── Back button ─────────────────────────────────────────── */
+.oap-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: fit-content;
+  transition: color 150ms ease;
+}
+.oap-back-btn:hover { color: var(--text-primary); }
+
+/* ── Page header ─────────────────────────────────────────── */
+.oap-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.oap-header-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px -8px rgba(37, 99, 235, 0.6);
+}
+
+.oap-title {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.oap-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  line-height: 1.5;
+}
+
+/* ── Stats strip ─────────────────────────────────────────── */
+.oap-stats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.oap-stat {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.oap-stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.oap-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.oap-stat-info {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  background: var(--accent-light);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: var(--accent);
+}
+
+.oap-stat-desc {
+  font-size: 0.8125rem;
+  color: var(--accent);
+  line-height: 1.5;
+}
+
+/* ── Grant Access Card ───────────────────────────────────── */
+.oap-grant-card {
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.oap-grant-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1E3A5F, #2563EB);
+  border-radius: 2px 2px 0 0;
+}
+
+.oap-grant-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+
+.oap-grant-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.oap-grant-desc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+
+.oap-grant-form {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.oap-email-input-wrap {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.oap-email-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.oap-email-input {
+  width: 100%;
+  padding: 11px 14px 11px 38px;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.oap-email-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.oap-email-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.oap-email-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.oap-grant-btn {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  box-shadow: 0 6px 16px -6px rgba(37, 99, 235, 0.65);
+  transition: all 200ms ease;
+}
+
+.oap-grant-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -6px rgba(37, 99, 235, 0.8);
+}
+
+.oap-grant-btn:disabled {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  box-shadow: none;
+}
+
+/* ── List Card ───────────────────────────────────────────── */
+.oap-list-card {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.oap-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.oap-list-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+}
+
+.oap-list-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.oap-count-pill {
+  display: inline-flex;
+  padding: 2px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: var(--radius-full);
+}
+
+.oap-search-wrap {
+  position: relative;
+}
+
+.oap-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.oap-search-input {
+  padding: 7px 12px 7px 30px;
+  font-size: 0.8125rem;
+  font-family: var(--font-body);
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  width: 200px;
+  transition: border-color 150ms ease;
+}
+
+.oap-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+.oap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.oap-table th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.oap-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.oap-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.oap-table tbody tr {
+  transition: background 120ms ease;
+}
+
+.oap-table tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+.oap-td-num {
+  color: var(--text-tertiary);
+  font-size: 0.8125rem;
+  width: 40px;
+}
+
+.oap-staff-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.oap-staff-email {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.oap-dept-badge {
+  display: inline-flex;
+  padding: 2px 9px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.oap-granted-by {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.oap-date-cell {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* ── Revoke button ───────────────────────────────────────── */
+.oap-revoke-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.oap-revoke-btn:hover:not(:disabled) {
+  background: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.oap-revoke-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.oap-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.oap-empty-icon {
+  color: var(--border);
+}
+
+.oap-empty-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.oap-empty-sub {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  max-width: 280px;
+}
+
+/* ── Info box ────────────────────────────────────────────── */
+.oap-info-box {
+  display: flex;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  align-items: flex-start;
+}
+
+.oap-info-icon {
+  color: var(--success);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.oap-info-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.oap-info-list {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.oap-info-list li {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .oap-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .oap-grant-form {
+    flex-direction: column;
+  }
+  .oap-email-input-wrap {
+    width: 100%;
+  }
+  .oap-grant-btn {
+    width: 100%;
+  }
+  .oap-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .oap-search-input {
+    width: 100%;
+  }
+}

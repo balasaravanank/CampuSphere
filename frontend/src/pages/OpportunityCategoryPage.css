@@ -1,0 +1,142 @@
+/* ══════════════════════════════════════════════════════════
+   OpportunityCategoryPage.css — Source badges, college
+   highlight, and category-specific additions
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Source Filter Section ───────────────────────────────── */
+.opp-source-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.opp-filter-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-right: 4px;
+}
+
+/* ── Source Badges on Cards ──────────────────────────────── */
+.opp-card-top-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.opp-source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-full);
+  border: none;
+}
+
+.source-badge-college,
+.source-badge-unstop,
+.source-badge-devfolio {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .source-badge-unstop,
+[data-theme="dark"] .source-badge-devfolio {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+/* ── College Priority Highlight ──────────────────────────── */
+.opp-card-college {
+  border-color: color-mix(in srgb, var(--success) 30%, var(--border));
+}
+
+.opp-college-highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--success-light);
+  color: var(--success);
+  border-radius: var(--radius-full);
+  align-self: flex-start;
+}
+
+/* ── Card Title Row (with logo) ──────────────────────────── */
+.opp-card-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.opp-card-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── Breadcrumb override for category pages ──────────────── */
+.opp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+
+.opp-breadcrumb .opp-breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  font-family: var(--font-body);
+  padding: 0;
+  transition: color 150ms ease;
+}
+.opp-breadcrumb .opp-breadcrumb-link:hover {
+  color: var(--accent-hover);
+}
+
+/* ── Modal backdrop (shared) ─────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: modal-fade-in 200ms ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

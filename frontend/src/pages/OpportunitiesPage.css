@@ -1,0 +1,823 @@
+/* ══════════════════════════════════════════════════════════
+   OpportunitiesPage.css — Premium card-based UI
+   Design: Asymmetric Signal Cards with type-stripe system
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Page layout ─────────────────────────────────────────── */
+.opp-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.opp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.opp-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.opp-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.opp-count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.opp-post-btn {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 20px -8px rgba(37, 99, 235, 0.7);
+  transition: all 200ms ease;
+}
+.opp-post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(37, 99, 235, 0.85);
+}
+
+/* ── Filter chips ────────────────────────────────────────── */
+.opp-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.opp-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+.opp-filter-chip:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+.opp-filter-chip.active {
+  background: var(--bg-secondary);
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+
+/* ── Grid ────────────────────────────────────────────────── */
+.opp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.opp-card {
+  position: relative;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 220ms ease,
+              border-color 220ms ease;
+  animation: opp-card-in 380ms ease both;
+  animation-delay: var(--anim-delay, 0ms);
+  will-change: transform;
+}
+
+@keyframes opp-card-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.opp-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--text-tertiary);
+}
+
+.opp-card-applied {
+  border-color: var(--text-primary);
+}
+
+/* ── Stripe (left border accent) - REMOVED for clean look ─────────────────────────── */
+.opp-card-stripe {
+  display: none;
+}
+
+/* ── Type-specific stripe colors (neutralized) ─────────────────────────── */
+.opp-type-hackathon   { --stripe-color: var(--text-primary); }
+.opp-type-event       { --stripe-color: var(--text-primary); }
+.opp-type-internship  { --stripe-color: var(--text-primary); }
+.opp-type-competition { --stripe-color: var(--text-primary); }
+.opp-type-scholarship { --stripe-color: var(--text-primary); }
+.opp-type-workshop    { --stripe-color: var(--text-primary); }
+
+/* ── Card top row ────────────────────────────────────────── */
+.opp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.opp-card-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Type badge ──────────────────────────────────────────── */
+.opp-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+/* ── Applied pill ────────────────────────────────────────── */
+.opp-applied-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--success-light);
+  color: var(--success);
+  border-radius: var(--radius-full);
+}
+
+/* ── Icon buttons ────────────────────────────────────────── */
+.opp-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: all 150ms ease;
+  background: transparent;
+}
+
+.opp-delete-btn {
+  color: var(--text-tertiary);
+}
+.opp-delete-btn:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+/* ── Title & Org ─────────────────────────────────────────── */
+.opp-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.opp-card-org {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ── Description ─────────────────────────────────────────── */
+.opp-card-desc {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Meta chips row ──────────────────────────────────────── */
+.opp-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.opp-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.opp-deadline-chip {
+  font-weight: 500;
+}
+
+.opp-chip-danger {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.opp-chip-warning {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.opp-days-left {
+  font-weight: 700;
+}
+
+.opp-applicants-chip {
+  background: var(--accent-light);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: var(--accent);
+}
+
+/* ── Eligibility ─────────────────────────────────────────── */
+.opp-eligibility {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 6px 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--border-hover);
+}
+
+/* ── Card actions ────────────────────────────────────────── */
+.opp-card-actions {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.opp-apply-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  transition: all 180ms ease;
+}
+.opp-apply-btn:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.opp-withdraw-btn {
+  flex: 1;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  transition: all 180ms ease;
+}
+.opp-withdraw-btn:hover:not(:disabled) {
+  background: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.opp-view-applicants-btn {
+  flex: 1;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  justify-content: space-between;
+  transition: all 180ms ease;
+}
+.opp-view-applicants-btn:hover {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.opp-link-btn {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+.opp-link-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.opp-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  gap: 12px;
+  text-align: center;
+}
+.opp-empty-icon {
+  color: var(--border);
+}
+.opp-empty-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.opp-empty-sub {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  max-width: 320px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CREATE MODAL
+   ══════════════════════════════════════════════════════════ */
+.opp-create-modal {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  width: 90%;
+  max-width: 680px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  padding: 28px;
+}
+
+.opp-create-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.opp-create-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.opp-create-sub {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.opp-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.opp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.opp-form-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.opp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.opp-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Type picker */
+.opp-type-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.opp-type-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.opp-type-option:hover {
+  background: var(--bg-tertiary);
+}
+.opp-type-option.selected {
+  font-weight: 700;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+/* Dept grid */
+.opp-dept-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.opp-dept-chip {
+  display: inline-flex;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.opp-dept-chip:hover {
+  border-color: var(--border-hover);
+}
+.opp-dept-chip.selected {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Modal actions */
+.opp-create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.opp-submit-btn {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 20px -8px rgba(37, 99, 235, 0.7);
+  transition: all 200ms ease;
+}
+.opp-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -8px rgba(37, 99, 235, 0.85);
+}
+.opp-submit-btn:disabled {
+  background: linear-gradient(135deg, #64748B 0%, #94A3B8 100%);
+  box-shadow: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   APPLICANTS PAGE STYLES
+   ══════════════════════════════════════════════════════════ */
+.opp-applicants-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.opp-applicants-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.opp-applicants-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.opp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.opp-breadcrumb-link {
+  color: var(--accent);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  padding: 0;
+  font-family: var(--font-body);
+}
+.opp-breadcrumb-link:hover { text-decoration: underline; }
+
+.opp-applicants-title {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.opp-applicants-meta {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opp-export-btn {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  transition: all 150ms ease;
+}
+.opp-export-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* Stats bar */
+.opp-applicants-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.opp-stat-card {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.opp-stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  line-height: 1;
+}
+.opp-stat-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Table card */
+.opp-applicants-table-card {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.opp-table-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.opp-table-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.opp-search-input {
+  width: 220px;
+  padding: 7px 12px;
+  font-size: 0.8125rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: border-color 150ms ease;
+}
+.opp-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.opp-applicants-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.opp-applicants-table th {
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+  white-space: nowrap;
+}
+
+.opp-applicants-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  color: var(--text-primary);
+}
+
+.opp-applicants-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.opp-applicants-table tbody tr {
+  transition: background 120ms ease;
+}
+
+.opp-applicants-table tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+.opp-student-name {
+  font-weight: 600;
+}
+
+.opp-student-email {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.opp-reg-badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+.opp-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-full);
+}
+
+.opp-status-applied {
+  background: var(--success-light);
+  color: var(--success);
+}
+.opp-status-pending {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+.opp-status-rejected {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+.opp-date-cell {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.opp-empty-table {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-tertiary);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .opp-grid {
+    grid-template-columns: 1fr;
+  }
+  .opp-form-row {
+    grid-template-columns: 1fr;
+  }
+  .opp-create-modal {
+    width: 95%;
+    padding: 20px;
+    border-radius: 14px;
+  }
+  .opp-applicants-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .opp-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .opp-search-input {
+    width: 100%;
+  }
+}
