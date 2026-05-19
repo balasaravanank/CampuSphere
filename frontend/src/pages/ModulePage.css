@@ -206,18 +206,35 @@
 }
 
 .event-card {
+  position: relative;
+  background: var(--bg-primary);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms ease, border-color 300ms ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .event-top {
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .event-title {
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  line-height: 1.35;
+  color: var(--text-primary);
+  margin-bottom: 4px;
 }
 
 .event-details {

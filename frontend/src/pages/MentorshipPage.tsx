@@ -132,35 +132,49 @@ export default function MentorshipPage() {
       {activeTab === 'mentorship' && (
         <div className="module-grid-2 fade-in">
           <div className="card">
-            <h3 className="card-title"><Users size={18} /> My Mentor</h3>
-            <div className="mentor-profile">
-              <div className="mentor-avatar">RK</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <h3 className="card-title" style={{ margin: 0 }}><Users size={18} /> Assigned Mentor</h3>
+              <span className="badge badge-success">Active</span>
+            </div>
+            <div className="mentor-profile" style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
+              <div className="mentor-avatar" style={{ 
+                width: '64px', height: '64px', borderRadius: '50%', 
+                background: 'var(--primary-light)', color: 'var(--primary)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 600
+              }}>RK</div>
               <div className="mentor-info">
-                <h4>Prof. Raj Kumar</h4>
-                <p>Computer Science Department</p>
-                <p className="text-secondary">Cabin: Faculty Block B-204</p>
+                <h4 style={{ margin: '0 0 4px 0', fontSize: '1.1rem' }}>Prof. Raj Kumar</h4>
+                <p style={{ margin: '0 0 4px 0', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Computer Science Department</p>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>Cabin: Faculty Block B-204</p>
               </div>
             </div>
-            <div className="mentor-actions">
-              <button className="btn btn-primary btn-sm"><Calendar size={14} /> Book Meeting</button>
-              <button className="btn btn-secondary btn-sm"><MessageSquare size={14} /> Message</button>
+            <div className="mentor-actions" style={{ display: 'flex', gap: '12px' }}>
+              <button className="btn btn-primary" style={{ flex: 1 }}><Calendar size={16} /> Book 1-on-1 Session</button>
+              <button className="btn btn-secondary"><MessageSquare size={16} /></button>
             </div>
           </div>
 
           <div className="card">
-            <h3 className="card-title"><Calendar size={18} /> Upcoming Meetings</h3>
-            <div className="meeting-list">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <h3 className="card-title" style={{ margin: 0 }}><Calendar size={18} /> Upcoming Sessions</h3>
+              <button className="btn-icon btn-ghost"><Plus size={16} /></button>
+            </div>
+            <div className="meeting-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {[
                 { date: 'Apr 23, Wed', time: '3:00 PM', topic: 'Semester progress review', status: 'scheduled' },
                 { date: 'May 7, Wed', time: '3:00 PM', topic: 'Career guidance & internship', status: 'scheduled' },
               ].map((m, i) => (
-                <div key={i} className="meeting-item">
-                  <div className="meeting-date">
-                    <span className="mono-text">{m.date}</span>
-                    <span className="text-secondary">{m.time}</span>
+                <div key={i} className="meeting-item" style={{ 
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
+                  padding: '12px', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)'
+                }}>
+                  <div>
+                    <div style={{ fontWeight: 500, fontSize: '0.9rem', marginBottom: '4px' }}>{m.topic}</div>
+                    <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                      <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{m.date}</span> • {m.time}
+                    </div>
                   </div>
-                  <div className="meeting-topic">{m.topic}</div>
-                  <span className="badge badge-primary">{m.status}</span>
+                  <span className="badge badge-primary" style={{ fontSize: '0.7rem' }}>{m.status}</span>
                 </div>
               ))}
             </div>
@@ -180,62 +194,79 @@ export default function MentorshipPage() {
           {wsLoading ? (
             <div className="wf-state spin"><Clock /></div>
           ) : !workshops || workshops.length === 0 ? (
-            <div className="wf-state">No workshops available right now.</div>
+            <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
+              <Video size={48} style={{ color: 'var(--border)', margin: '0 auto 16px' }} />
+              <h3 style={{ margin: '0 0 8px 0' }}>No Workshops Available</h3>
+              <p className="text-secondary" style={{ margin: '0 0 20px 0' }}>Be the first to host a workshop or check back later.</p>
+              <button className="btn btn-primary" onClick={() => setRequestModal(true)}>
+                <Plus size={16} /> Host a Workshop
+              </button>
+            </div>
           ) : (
             <div className="events-grid">
               {workshops.map((ws: any) => {
                 const isHost = ws.host?.id === user?.id;
                 
                 return (
-                  <div key={ws.id} className="card event-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div className="event-top">
-                      <span className={`badge ${ws.status === 'approved' ? 'badge-primary' : ws.status === 'completed' ? 'badge-success' : 'badge-warning'}`}>
-                        {ws.status.toUpperCase()}
+                  <div key={ws.id} className="card event-card" style={{ display: 'flex', flexDirection: 'column', transition: 'transform 0.2s, box-shadow 0.2s' }}>
+                    <div className="event-top" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <span className={`badge ${ws.status === 'approved' ? 'badge-primary' : ws.status === 'completed' ? 'badge-success' : ws.status === 'live' ? 'badge-danger' : 'badge-warning'}`}>
+                          {ws.status === 'approved' ? 'UPCOMING' : ws.status.toUpperCase()}
+                        </span>
+                        {isHost && <span className="badge" style={{ background: 'var(--accent)', color: 'white', border: 'none' }}>HOST</span>}
+                      </div>
+                      <span className="badge badge-secondary" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Trophy size={12} style={{ color: 'var(--warning)' }} /> {ws.reward_points_attendee} pts
                       </span>
-                      {isHost && <span className="badge badge-secondary">HOST</span>}
                     </div>
                     
-                    <h3 className="event-title" style={{ fontSize: '1.1rem' }}>{ws.title}</h3>
-                    <p className="text-secondary" style={{ fontSize: '0.85rem', marginBottom: '12px', flex: 1 }}>{ws.description}</p>
+                    <h3 className="event-title" style={{ fontSize: '1.2rem', marginBottom: '8px', lineHeight: 1.3 }}>{ws.title}</h3>
+                    <p className="text-secondary" style={{ fontSize: '0.875rem', marginBottom: '16px', flex: 1, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{ws.description}</p>
                     
-                    <div className="event-details" style={{ marginBottom: '16px', borderTop: '1px solid var(--border)', paddingTop: '12px' }}>
-                      <span><Calendar size={14} /> {new Date(ws.scheduled_date).toLocaleDateString()} at {new Date(ws.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
-                      <span><Users size={14} /> Host: {ws.host?.name}</span>
-                      <span><Trophy size={14} /> Reward: {ws.reward_points_attendee} pts (Host: {ws.reward_points_host} pts)</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px', padding: '12px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-md)', fontSize: '0.8125rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+                        <Calendar size={14} className="text-secondary" /> 
+                        <span style={{ fontWeight: 500 }}>{new Date(ws.scheduled_date).toLocaleDateString()}</span> • {new Date(ws.start_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-primary)' }}>
+                        <Users size={14} className="text-secondary" /> 
+                        Host: <span style={{ fontWeight: 500 }}>{ws.host?.name}</span>
+                      </div>
                       
                       {ws.meet_link && (
-                        <span>
-                          <Video size={14} style={{ color: 'var(--success)' }} /> 
-                          <a href={ws.meet_link} target="_blank" rel="noreferrer" style={{ color: 'var(--accent)' }}>Join Meeting <ExternalLink size={12} /></a>
-                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)' }}>
+                          <Video size={14} /> 
+                          <a href={ws.meet_link} target="_blank" rel="noreferrer" style={{ color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>Join Google Meet <ExternalLink size={12} /></a>
+                        </div>
                       )}
                     </div>
                     
-                    <div className="event-capacity-bar" style={{ marginTop: 'auto' }}>
-                      <div className={`event-capacity-fill ${ws.is_full ? 'full' : ''}`} style={{ width: `${(ws.booked_count / ws.max_participants) * 100}%` }} />
+                    <div className="event-capacity-bar" style={{ marginTop: 'auto', background: 'var(--border)', height: '6px', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div className={`event-capacity-fill ${ws.is_full ? 'full' : ''}`} style={{ width: `${(ws.booked_count / ws.max_participants) * 100}%`, background: ws.is_full ? 'var(--danger)' : 'var(--primary)', height: '100%', transition: 'width 0.3s ease' }} />
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '4px', color: 'var(--text-secondary)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginTop: '6px', color: 'var(--text-secondary)', fontWeight: 500 }}>
                       <span>{ws.booked_count} Booked</span>
-                      <span>{ws.max_participants} Total</span>
+                      <span>{ws.max_participants} Capacity</span>
                     </div>
 
-                    <div style={{ marginTop: '16px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <div style={{ marginTop: '20px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                       {/* Host Actions */}
                       {isHost && ws.status === 'approved' && (
                         <>
-                          <button className="btn btn-sm btn-secondary" onClick={() => handleMeetLinkUpdate(ws.id)} style={{ flex: 1 }}>
-                            {ws.meet_link ? 'Edit Meet Link' : '+ Meet Link'}
+                          <button className="btn btn-sm btn-secondary" onClick={() => handleMeetLinkUpdate(ws.id)} style={{ flex: 1, borderColor: ws.meet_link ? 'var(--success)' : 'var(--border)' }}>
+                            <Video size={14} style={{ color: ws.meet_link ? 'var(--success)' : 'inherit' }} /> {ws.meet_link ? 'Edit Link' : 'Add Link'}
                           </button>
                           <button 
                             className="btn btn-sm btn-primary" 
                             style={{ flex: 1, backgroundColor: 'var(--success)', borderColor: 'var(--success)' }}
                             onClick={() => {
-                              if (window.confirm("Are you sure you want to mark this workshop as complete?")) {
+                              if (window.confirm("Are you sure you want to mark this workshop as complete? Attendees will be prompted to claim their points.")) {
                                 completeMutation.mutate(ws.id);
                               }
                             }}
                           >
-                            Mark Complete
+                            <CheckCircle size={14} /> Complete
                           </button>
                         </>
                       )}
@@ -243,29 +274,31 @@ export default function MentorshipPage() {
                       {/* Attendee Actions */}
                       {!isHost && ws.status === 'approved' && (
                         <button 
-                          className="btn btn-sm btn-primary" 
-                          style={{ width: '100%' }}
+                          className={`btn btn-sm ${ws.my_booking_status === 'booked' ? 'btn-secondary' : 'btn-primary'}`}
+                          style={{ width: '100%', opacity: ws.is_full && ws.my_booking_status !== 'booked' ? 0.5 : 1 }}
                           disabled={ws.is_full || ws.my_booking_status === 'booked' || bookMutation.isPending}
                           onClick={() => bookMutation.mutate(ws.id)}
                         >
-                          {ws.my_booking_status === 'booked' ? 'Booked' : ws.is_full ? 'Full' : 'Book Slot'}
+                          {ws.my_booking_status === 'booked' ? (
+                            <><CheckCircle size={14} style={{ color: 'var(--success)' }} /> Booked (Awaiting Meet Link)</>
+                          ) : ws.is_full ? 'Slot Full' : 'Book Slot'}
                         </button>
                       )}
 
                       {!isHost && ws.status === 'completed' && ws.my_booking_status === 'booked' && (
                         <button 
                           className="btn btn-sm btn-primary" 
-                          style={{ width: '100%', backgroundColor: 'var(--success)', borderColor: 'var(--success)' }}
+                          style={{ width: '100%', backgroundColor: 'var(--accent)', borderColor: 'var(--accent)' }}
                           onClick={() => confirmAttendanceMutation.mutate(ws.id)}
                           disabled={confirmAttendanceMutation.isPending}
                         >
-                          <CheckCircle size={14} /> Confirm Attendance (Claim Points)
+                          <CheckCircle size={14} /> Claim {ws.reward_points_attendee} Points
                         </button>
                       )}
                       
                       {!isHost && ws.status === 'completed' && ws.my_booking_status === 'attended' && (
-                        <div className="badge badge-success" style={{ width: '100%', justifyContent: 'center', padding: '6px' }}>
-                          <CheckCircle size={14} /> Points Claimed
+                        <div style={{ width: '100%', textAlign: 'center', padding: '8px', background: 'var(--success-light)', color: 'var(--success)', borderRadius: 'var(--radius-md)', fontSize: '0.8125rem', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                          <CheckCircle size={16} /> Reward Claimed
                         </div>
                       )}
                     </div>

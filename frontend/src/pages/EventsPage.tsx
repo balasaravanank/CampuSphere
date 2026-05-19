@@ -232,7 +232,7 @@ function InlineDateTimePicker({
 
 export default function EventsPage() {
   const queryClient = useQueryClient();
-  const [filter, setFilter] = useState<'all' | 'open' | 'upcoming' | 'closed'>('all');
+  const [filter, setFilter] = useState<'active' | 'open' | 'upcoming' | 'closed' | 'past'>('active');
   const [termFilter, setTermFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [fromDate, setFromDate] = useState<Date | undefined>();
@@ -382,7 +382,12 @@ export default function EventsPage() {
     const bookingOpens = e.booking_open ? new Date(e.booking_open.endsWith('Z') ? e.booking_open : e.booking_open + 'Z') : new Date(0);
     const bookingCloses = e.booking_close ? new Date(e.booking_close.endsWith('Z') ? e.booking_close : e.booking_close + 'Z') : new Date(8640000000000000);
     const eventStart = new Date(e.start_time.endsWith('Z') ? e.start_time : e.start_time + 'Z');
-    
+    const eventEnd = new Date(e.end_time.endsWith('Z') ? e.end_time : e.end_time + 'Z');
+    const isPastEvent = eventEnd < now;
+
+    if (filter === 'past' && !isPastEvent) return false;
+    if (filter !== 'past' && isPastEvent) return false;
+
     if (filter === 'upcoming' && bookingOpens <= now) return false;
     if (filter === 'closed' && bookingCloses >= now) return false;
     if (filter === 'open' && (bookingOpens > now || bookingCloses < now)) return false;
@@ -447,10 +452,11 @@ export default function EventsPage() {
         <div style={{ flex: '1 1 140px' }}>
           <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, marginBottom: '6px', color: 'var(--text-secondary)' }}>Status</label>
           <select className="input" value={filter} onChange={e => setFilter(e.target.value as any)} style={{ width: '100%' }}>
-            <option value="all">All Events</option>
+            <option value="active">All Active</option>
             <option value="open">Currently Open</option>
             <option value="upcoming">Opening Soon</option>
-            <option value="closed">Closed</option>
+            <option value="closed">Closed (Fully Booked)</option>
+            <option value="past">Past Events</option>
           </select>
         </div>
 
@@ -464,9 +470,9 @@ export default function EventsPage() {
           <InlineDatePicker value={toDate} onChange={setToDate} label="Any date" />
         </div>
 
-        {(searchQuery || fromDate || toDate || filter !== 'all' || termFilter !== 'all') && (
+        {(searchQuery || fromDate || toDate || filter !== 'active' || termFilter !== 'all') && (
           <div style={{ flex: '1 1 100%', display: 'flex', justifyContent: 'flex-end', paddingTop: '8px', marginTop: '8px', borderTop: '1px dashed var(--border)' }}>
-            <button className="btn btn-ghost btn-sm" onClick={() => { setSearchQuery(''); setFromDate(undefined); setToDate(undefined); setFilter('all'); setTermFilter('all'); }}>
+            <button className="btn btn-ghost btn-sm" onClick={() => { setSearchQuery(''); setFromDate(undefined); setToDate(undefined); setFilter('active'); setTermFilter('all'); }}>
               Reset Filters
             </button>
           </div>

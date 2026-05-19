@@ -1,7 +1,7 @@
 
 Admin: admin@campusphere.com / Admin@2026!
 Staff: staff@saveetha.ac.in / Staff@2026!
-Student: student1@saveetha.ac.in / Student@2026!
+Student: student@saveetha.ac.in / Student@2026!
 
 CAMPUSPHERE
 All-in-One College Student Workspace Platform

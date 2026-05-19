@@ -136,6 +136,8 @@ export default function OpportunityCategoryPage({
 
   const [filter, setFilter] = useState('All');
   const [sourceFilter, setSourceFilter] = useState('All');
+  const [timelineFilter, setTimelineFilter] = useState<'Live' | 'Past'>('Live');
+  const [statusFilter, setStatusFilter] = useState<'All' | 'Applied' | 'Not Applied'>('All');
   const [showCreate, setShowCreate] = useState(false);
   const [form, setForm] = useState<CreateForm>(EMPTY_FORM);
 
@@ -221,7 +223,23 @@ export default function OpportunityCategoryPage({
     createMutation.mutate(payload);
   };
 
-  const opportunities = data ?? [];
+  const rawOpportunities = data ?? [];
+  const now = new Date();
+
+  // Apply frontend filters for Timeline and Engagement
+  const opportunities = rawOpportunities.filter(o => {
+    // Timeline filtering
+    const isPast = o.deadline_iso ? new Date(o.deadline_iso) < now : false;
+    if (timelineFilter === 'Live' && isPast) return false;
+    if (timelineFilter === 'Past' && !isPast) return false;
+
+    // Status filtering
+    if (statusFilter === 'Applied' && !o.applied) return false;
+    if (statusFilter === 'Not Applied' && o.applied) return false;
+
+    return true;
+  });
+
   const resolvedTitle = pageTitle || 'All Opportunities';
 
   /* ── Render ── */
@@ -251,23 +269,48 @@ export default function OpportunityCategoryPage({
         )}
       </div>
 
-      {/* Source Filter Chips */}
+      {/* Source & Tracking Filters */}
       <div className="opp-source-filters">
         <span className="opp-filter-section-label">
-          <Globe size={13} />
-          Source
+          <Globe size={13} /> Source
         </span>
         {SOURCE_FILTERS.map(sf => (
           <button
             key={sf}
             className={`opp-filter-chip ${sourceFilter === sf ? 'active' : ''}`}
             onClick={() => setSourceFilter(sf)}
-            style={sourceFilter === sf ? {
-              borderColor: sf === 'College' ? '#059669' : sf === 'Unstop' ? '#DC2626' : sf === 'Devfolio' ? '#2563EB' : undefined,
-              color: sf === 'College' ? '#059669' : sf === 'Unstop' ? '#DC2626' : sf === 'Devfolio' ? '#2563EB' : undefined,
-            } : undefined}
           >
             {sf === 'College' && <Building2 size={12} />}
+            {sf}
+          </button>
+        ))}
+
+        <div style={{ width: '1px', height: '20px', background: 'var(--border)', margin: '0 8px' }}></div>
+
+        <span className="opp-filter-section-label">
+          <Clock size={13} /> Timeline
+        </span>
+        {['Live', 'Past'].map(tf => (
+          <button
+            key={tf}
+            className={`opp-filter-chip ${timelineFilter === tf ? 'active' : ''}`}
+            onClick={() => setTimelineFilter(tf as any)}
+          >
+            {tf}
+          </button>
+        ))}
+
+        <div style={{ width: '1px', height: '20px', background: 'var(--border)', margin: '0 8px' }}></div>
+
+        <span className="opp-filter-section-label">
+          <Target size={13} /> Status
+        </span>
+        {['All', 'Applied', 'Not Applied'].map(sf => (
+          <button
+            key={sf}
+            className={`opp-filter-chip ${statusFilter === sf ? 'active' : ''}`}
+            onClick={() => setStatusFilter(sf as any)}
+          >
             {sf}
           </button>
         ))}
