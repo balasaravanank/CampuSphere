@@ -81,8 +81,7 @@ export default function AdminPage() {
         <div className="card admin-section">
           <h3 className="card-title"><Settings size={18} /> Content Management</h3>
           <div className="admin-actions">
-            <button className="btn btn-secondary btn-sm" disabled>Manage Subjects</button>
-            <button className="btn btn-secondary btn-sm" disabled>Manage Schedule</button>
+            <button className="btn btn-primary btn-sm" onClick={() => navigate('/admin/academics')}>Manage Subjects & Slots</button>
             <button className="btn btn-primary btn-sm" onClick={() => navigate('/admin/events/new')}>Manage Events</button>
             <button className="btn btn-secondary btn-sm" disabled>Edit Departments</button>
           </div>

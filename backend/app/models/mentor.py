@@ -8,11 +8,31 @@ from sqlalchemy import (
     Integer,
     String,
     Text,
+    Boolean,
+    JSON,
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
+
+
+class MentorProfile(Base):
+    """Profile for users who opt-in to be mentors in the marketplace."""
+
+    __tablename__ = "mentor_profiles"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), unique=True, nullable=False)
+    bio: Mapped[str | None] = mapped_column(Text, nullable=True)
+    skills: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    is_accepting_mentees: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    max_mentees: Mapped[int] = mapped_column(Integer, default=5, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    user = relationship("User", foreign_keys=[user_id], lazy="selectin")
 
 
 class MentorAssignment(Base):

@@ -12,6 +12,7 @@ const pageTitles: Record<string, string> = {
   '/workflows': 'Workflow Requests',
   '/events': 'Events & Booking',
   '/mentorship': 'Mentorship',
+  '/academics': 'Academics',
   '/opportunities': 'Opportunities',
   '/notifications': 'Notifications',
   '/admin': 'Admin Panel',

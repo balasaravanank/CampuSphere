@@ -64,6 +64,7 @@ const navSections: NavSection[] = [
     items: [
       { path: '/events', icon: Trophy, label: 'Events', roles: ['student', 'staff', 'admin'] },
       { path: '/mentorship', icon: Users, label: 'Mentorship', roles: ['student', 'staff', 'admin'] },
+      { path: '/academics', icon: BookOpen, label: 'Academics', roles: ['student', 'staff', 'admin'] },
       { path: '/opportunities', icon: GraduationCap, label: 'Opportunities', roles: ['student', 'staff', 'admin'] },
       { path: '/rewards', icon: Trophy, label: 'Rewards', roles: ['student', 'staff', 'admin'] },
     ],

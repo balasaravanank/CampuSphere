@@ -13,6 +13,9 @@ import WorkflowFormPage from './pages/WorkflowFormPage';
 import WorkflowDetailPage from './pages/WorkflowDetailPage';
 import EventsPage from './pages/EventsPage';
 import MentorshipPage from './pages/MentorshipPage';
+import AcademicsPage from './pages/AcademicsPage';
+import SubjectDetailPage from './pages/SubjectDetailPage';
+import AdminAcademicsPage from './pages/AdminAcademicsPage';
 import OpportunitiesHubPage from './pages/OpportunitiesHubPage';
 import OpportunityCategoryPage from './pages/OpportunityCategoryPage';
 import NotificationsPage from './pages/NotificationsPage';
@@ -75,6 +78,8 @@ export default function App() {
             <Route path="/workflows/:id" element={<WorkflowDetailPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/mentorship" element={<MentorshipPage />} />
+            <Route path="/academics" element={<AcademicsPage />} />
+            <Route path="/academics/subject/:id" element={<SubjectDetailPage />} />
             <Route path="/opportunities" element={<OpportunitiesHubPage />} />
             <Route path="/opportunities/all" element={<OpportunityCategoryPage pageTitle="All Opportunities" />} />
             <Route path="/opportunities/hackathons" element={<OpportunityCategoryPage categoryType="hackathon" pageTitle="Hackathons" />} />
@@ -130,6 +135,14 @@ export default function App() {
               element={
                 <AdminRoute>
                   <AdminWorkshopsPage />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/academics"
+              element={
+                <AdminRoute>
+                  <AdminAcademicsPage />
                 </AdminRoute>
               }
             />

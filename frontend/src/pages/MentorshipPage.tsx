@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Calendar, MessageSquare, Video, Trophy, Plus, Clock, CheckCircle, ExternalLink } from 'lucide-react';
+import { Users, Calendar, Video, Trophy, Plus, Clock, CheckCircle, ExternalLink, X, Search } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import api from '../lib/api';
@@ -11,6 +11,7 @@ export default function MentorshipPage() {
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<'mentorship' | 'workshops'>('mentorship');
   const [requestModal, setRequestModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Workshop Request Form State
   const [formData, setFormData] = useState({
@@ -21,6 +22,20 @@ export default function MentorshipPage() {
     start_time: '',
     end_time: '',
     max_participants: 50,
+  });
+
+  const { data: mentors, isLoading: mentorsLoading } = useQuery({
+    queryKey: ['mentors', searchTerm],
+    queryFn: () => api.get(`/mentors/profiles${searchTerm ? `?skills=${searchTerm}` : ''}`).then(r => r.data),
+  });
+
+  const assignMentorMutation = useMutation({
+    mutationFn: (mentorId: number) => api.post('/mentors/assign', { mentor_id: mentorId, student_id: user?.id }),
+    onSuccess: () => {
+      toast.success('Successfully matched with mentor!');
+      queryClient.invalidateQueries({ queryKey: ['mentors'] });
+    },
+    onError: (err: any) => toast.error(err.response?.data?.detail || 'Failed to assign mentor')
   });
 
   const { data: workshops, isLoading: wsLoading } = useQuery({
@@ -130,55 +145,74 @@ export default function MentorshipPage() {
       </div>
 
       {activeTab === 'mentorship' && (
-        <div className="module-grid-2 fade-in">
-          <div className="card">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <h3 className="card-title" style={{ margin: 0 }}><Users size={18} /> Assigned Mentor</h3>
-              <span className="badge badge-success">Active</span>
-            </div>
-            <div className="mentor-profile" style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '20px' }}>
-              <div className="mentor-avatar" style={{ 
-                width: '64px', height: '64px', borderRadius: '50%', 
-                background: 'var(--primary-light)', color: 'var(--primary)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 600
-              }}>RK</div>
-              <div className="mentor-info">
-                <h4 style={{ margin: '0 0 4px 0', fontSize: '1.1rem' }}>Prof. Raj Kumar</h4>
-                <p style={{ margin: '0 0 4px 0', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Computer Science Department</p>
-                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>Cabin: Faculty Block B-204</p>
-              </div>
-            </div>
-            <div className="mentor-actions" style={{ display: 'flex', gap: '12px' }}>
-              <button className="btn btn-primary" style={{ flex: 1 }}><Calendar size={16} /> Book 1-on-1 Session</button>
-              <button className="btn btn-secondary"><MessageSquare size={16} /></button>
+        <div className="fade-in">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <p className="text-secondary">Find a mentor based on skills and connect.</p>
+            <div className="search-bar" style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-secondary)', padding: '8px 12px', borderRadius: 'var(--radius-md)' }}>
+              <Search size={16} className="text-secondary" style={{ marginRight: '8px' }} />
+              <input 
+                type="text" 
+                placeholder="Search by skills (e.g. React, AI)" 
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                style={{ border: 'none', background: 'transparent', outline: 'none', color: 'var(--text-primary)', width: '200px' }}
+              />
             </div>
           </div>
-
-          <div className="card">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <h3 className="card-title" style={{ margin: 0 }}><Calendar size={18} /> Upcoming Sessions</h3>
-              <button className="btn-icon btn-ghost"><Plus size={16} /></button>
+          
+          {mentorsLoading ? (
+            <div className="wf-state spin"><Clock /></div>
+          ) : !mentors || mentors.length === 0 ? (
+            <div className="card" style={{ textAlign: 'center', padding: '40px 20px' }}>
+              <Users size={48} style={{ color: 'var(--border)', margin: '0 auto 16px' }} />
+              <h3 style={{ margin: '0 0 8px 0' }}>No Mentors Found</h3>
+              <p className="text-secondary" style={{ margin: '0 0 20px 0' }}>Try a different skill or check back later.</p>
             </div>
-            <div className="meeting-list" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { date: 'Apr 23, Wed', time: '3:00 PM', topic: 'Semester progress review', status: 'scheduled' },
-                { date: 'May 7, Wed', time: '3:00 PM', topic: 'Career guidance & internship', status: 'scheduled' },
-              ].map((m, i) => (
-                <div key={i} className="meeting-item" style={{ 
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', 
-                  padding: '12px', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)'
-                }}>
-                  <div>
-                    <div style={{ fontWeight: 500, fontSize: '0.9rem', marginBottom: '4px' }}>{m.topic}</div>
-                    <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                      <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{m.date}</span> • {m.time}
+          ) : (
+            <div className="module-grid-2 fade-in">
+              {mentors.map((mentor: any) => (
+                <div key={mentor.id} className="card">
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                    <h3 className="card-title" style={{ margin: 0 }}><Users size={18} /> Mentor</h3>
+                    <span className="badge badge-success">Accepting Mentees</span>
+                  </div>
+                  <div className="mentor-profile" style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '16px' }}>
+                    <div className="mentor-avatar" style={{ 
+                      width: '64px', height: '64px', borderRadius: '50%', 
+                      background: 'var(--primary-light)', color: 'var(--primary)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 600
+                    }}>
+                      {mentor.user?.name?.charAt(0) || 'M'}
+                    </div>
+                    <div className="mentor-info">
+                      <h4 style={{ margin: '0 0 4px 0', fontSize: '1.1rem' }}>{mentor.user?.name || 'Unknown'}</h4>
+                      <p style={{ margin: '0 0 4px 0', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>{mentor.user?.department || 'Department'}</p>
+                      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '6px' }}>
+                        {mentor.skills?.map((skill: string, i: number) => (
+                          <span key={i} className="badge badge-secondary" style={{ fontSize: '0.7rem', padding: '2px 6px' }}>{skill}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <span className="badge badge-primary" style={{ fontSize: '0.7rem' }}>{m.status}</span>
+                  {mentor.bio && (
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+                      {mentor.bio}
+                    </p>
+                  )}
+                  <div className="mentor-actions" style={{ display: 'flex', gap: '12px' }}>
+                    <button 
+                      className="btn btn-primary" 
+                      style={{ flex: 1 }}
+                      onClick={() => assignMentorMutation.mutate(mentor.user_id)}
+                      disabled={assignMentorMutation.isPending}
+                    >
+                      <Plus size={16} /> Request Mentorship
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
+          )}
         </div>
       )}
 

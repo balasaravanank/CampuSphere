@@ -10,10 +10,15 @@ from app.routers.assignments import router as assignments_router
 from app.routers.attendance import router as attendance_router
 from app.routers.permissions import router as permissions_router
 from app.routers.workshops import router as workshops_router
+from app.routers.mentors import router as mentors_router
+from app.routers.study_groups import router as study_groups_router
+from app.routers.academics import router as academics_router
 
 __all__ = [
     "health_router", "auth_router", "admin_router",
     "workflows_router", "events_router", "circulars_router",
     "opportunities_router", "assignments_router", "attendance_router",
-    "permissions_router", "workshops_router",
+    "permissions_router", "workshops_router", "mentors_router",
+    "study_groups_router",
+    "academics_router",
 ]

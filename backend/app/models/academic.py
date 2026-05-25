@@ -8,6 +8,7 @@ from sqlalchemy import (
     String,
     Time,
     UniqueConstraint,
+    Text,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -23,6 +24,7 @@ class Subject(Base):
     credits: Mapped[int] = mapped_column(Integer, nullable=False)
     department: Mapped[str] = mapped_column(String(100), nullable=False)
     semester: Mapped[int] = mapped_column(Integer, nullable=False)
+    term: Mapped[str | None] = mapped_column(String(50), nullable=True)  # e.g. "25-26 EVEN T2"
 
     slots = relationship("Slot", back_populates="subject", lazy="selectin")
     assignments = relationship("Assignment", back_populates="subject", lazy="selectin")
@@ -43,6 +45,7 @@ class Slot(Base):
     time_start: Mapped[time] = mapped_column(Time, nullable=False)
     time_end: Mapped[time] = mapped_column(Time, nullable=False)
     room: Mapped[str] = mapped_column(String(50), nullable=False)
+    slot_number: Mapped[str | None] = mapped_column(String(30), nullable=True)  # e.g. "CLS08-10"
 
     subject = relationship("Subject", back_populates="slots")
     faculty = relationship("User", foreign_keys=[faculty_id])

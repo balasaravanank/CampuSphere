@@ -12,7 +12,8 @@ from app.routers import (
     admin_router, auth_router, health_router,
     workflows_router, events_router, circulars_router,
     opportunities_router, assignments_router, attendance_router,
-    permissions_router, workshops_router,
+    permissions_router, workshops_router, mentors_router,
+    study_groups_router, academics_router,
 )
 from app.database import engine, Base
 from app.services.scraper import sync_external_opportunities
@@ -92,3 +93,6 @@ app.include_router(assignments_router, prefix=settings.API_V1_PREFIX)
 app.include_router(attendance_router, prefix=settings.API_V1_PREFIX)
 app.include_router(permissions_router, prefix=settings.API_V1_PREFIX)
 app.include_router(workshops_router, prefix=settings.API_V1_PREFIX)
+app.include_router(mentors_router, prefix=settings.API_V1_PREFIX)
+app.include_router(study_groups_router, prefix=settings.API_V1_PREFIX)
+app.include_router(academics_router, prefix=settings.API_V1_PREFIX)
