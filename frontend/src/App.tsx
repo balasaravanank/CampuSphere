@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage';
 import AttendancePage from './pages/AttendancePage';
 import AssignmentsPage from './pages/AssignmentsPage';
 import CircularsPage from './pages/CircularsPage';
+import CircularDetailPage from './pages/CircularDetailPage';
 import WorkflowsPage from './pages/WorkflowsPage';
 import WorkflowFormPage from './pages/WorkflowFormPage';
 import WorkflowDetailPage from './pages/WorkflowDetailPage';
@@ -73,6 +74,7 @@ export default function App() {
             <Route path="/attendance" element={<AttendancePage />} />
             <Route path="/assignments" element={<AssignmentsPage />} />
             <Route path="/circulars" element={<CircularsPage />} />
+            <Route path="/circulars/:id" element={<CircularDetailPage />} />
             <Route path="/workflows" element={<WorkflowsPage />} />
             <Route path="/workflows/new/:type" element={<WorkflowFormPage />} />
             <Route path="/workflows/:id" element={<WorkflowDetailPage />} />

@@ -66,3 +66,50 @@ class CircularRead(Base):
 
     circular = relationship("Circular", back_populates="reads")
     user = relationship("User", foreign_keys=[user_id])
+
+
+class CircularChatMessage(Base):
+    __tablename__ = "circular_chat_messages"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    circular_id: Mapped[int] = mapped_column(ForeignKey("circulars.id"), nullable=False, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    circular = relationship("Circular")
+    user = relationship("User", foreign_keys=[user_id])
+
+
+class CircularTask(Base):
+    __tablename__ = "circular_tasks"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    circular_id: Mapped[int] = mapped_column(ForeignKey("circulars.id"), nullable=False, index=True)
+    title: Mapped[str] = mapped_column(String(300), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    attachment_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    created_by: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    circular = relationship("Circular")
+    author = relationship("User", foreign_keys=[created_by])
+    submissions = relationship("CircularTaskSubmission", back_populates="task", cascade="all, delete-orphan")
+
+
+class CircularTaskSubmission(Base):
+    __tablename__ = "circular_task_submissions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    task_id: Mapped[int] = mapped_column(ForeignKey("circular_tasks.id", ondelete="CASCADE"), nullable=False, index=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    completed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    task = relationship("CircularTask", back_populates="submissions")
+    user = relationship("User", foreign_keys=[user_id])
